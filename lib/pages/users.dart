@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import '../widgets/chat_messages.dart';
-// Import your ChatMessages page
+import '../widgets/chat_messages.dart'; // Import your ChatMessages page
 
 class UsersPage extends StatelessWidget {
   @override
@@ -28,24 +27,24 @@ class UsersPage extends StatelessWidget {
             return Center(child: Text('No users found'));
           }
 
+          // Get the list of user documents
           final users = snapshot.data!.docs;
 
-          return ListView.builder(
-            itemCount: users.length,
-            itemBuilder: (context, index) {
-              final user = users[index].data() as Map<String, dynamic>;
-              final userId = users[index].id;
+          // Filter out the current user
+          final filteredUsers = users.where((user) => user.id != currentUser?.uid).toList();
 
-              // Skip the current user
-              if (userId == currentUser!.uid) {
-                return SizedBox();
-              }
+          return ListView.builder(
+            itemCount: filteredUsers.length,
+            itemBuilder: (context, index) {
+              final user = filteredUsers[index].data() as Map<String, dynamic>;
+              final userId = filteredUsers[index].id;
 
               return ListTile(
-                title: Text(user['username'] ?? 'Unknown User'),
+                title: Text(user['firstName'] ?? 'Unknown User'),
                 subtitle: Text(user['email'] ?? 'No email'),
                 onTap: () {
-                  // Navigate to the chat page with the selected user's ID
+                  // Navigate to the chat page wi
+                  // th the selected user's ID
                   Navigator.push(
                     context,
                     MaterialPageRoute(

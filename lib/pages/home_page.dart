@@ -56,27 +56,17 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
         actions: [
+          SvgPicture.asset(
+            'assets/logo_ab.svg',
+            height: 40,
+          ),
           Padding(
             padding: const EdgeInsets.only(right: 10.0),
-            child: SvgPicture.asset(
-              'assets/logo_ab.svg',
-              height: 40,
-            ),
           ),
         ],
       ),
       body: Container(
-        decoration: BoxDecoration(
-          // gradient: LinearGradient(
-          //   colors: [
-          //     Colors.blueGrey.shade900,
-          //     Colors.blueGrey.shade700,
-          //     Colors.blueGrey.shade500,
-          //   ],
-          //   begin: Alignment.topCenter,
-          //   end: Alignment.bottomCenter,
-          // ),
-        ),
+        decoration: BoxDecoration(),
         child: _pages[_currentIndex],
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -105,17 +95,9 @@ class HomeContent extends StatefulWidget {
 }
 
 class _HomeContentState extends State<HomeContent> {
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance; // Firestore instance
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final TextEditingController _searchController = TextEditingController();
   String _searchQuery = '';
-
-  // Function to decode Base64 string into an image
-  Image _decodeBase64Image(String base64String) {
-    return Image.memory(
-      base64Decode(base64String), // Decode Base64 string
-      fit: BoxFit.cover,
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -147,29 +129,27 @@ class _HomeContentState extends State<HomeContent> {
             style: TextStyle(color: Colors.white),
             onChanged: (value) {
               setState(() {
-                _searchQuery = value; // Update the search query
+                _searchQuery = value;
               });
             },
           ),
         ),
         Expanded(
           child: StreamBuilder<QuerySnapshot>(
-            // Fetch data from Firestore collection
             stream: _firestore.collection('items').snapshots(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(child: CircularProgressIndicator(color: Colors.white)); // Show loading indicator
+                return Center(child: CircularProgressIndicator(color: Colors.white));
               }
 
               if (snapshot.hasError) {
-                return Center(child: Text("Error fetching data", style: TextStyle(color: Colors.white))); // Show error message
+                return Center(child: Text("Error fetching data", style: TextStyle(color: Colors.white)));
               }
 
               if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-                return Center(child: Text("No items found", style: TextStyle(color: Colors.white))); // Show message if no data
+                return Center(child: Text("No items found", style: TextStyle(color: Colors.white)));
               }
 
-              // Filter data based on search query
               final filteredItems = snapshot.data!.docs.where((doc) {
                 final itemData = doc.data() as Map<String, dynamic>;
                 final title = itemData['title'] ?? '';
@@ -177,52 +157,50 @@ class _HomeContentState extends State<HomeContent> {
               }).toList();
 
               if (filteredItems.isEmpty) {
-                return Center(child: Text("No items found", style: TextStyle(color: Colors.white))); // Show message if no matching items
+                return Center(child: Text("No items found", style: TextStyle(color: Colors.white)));
               }
 
-              // Display filtered data in a list
               return ListView.builder(
                 itemCount: filteredItems.length,
                 itemBuilder: (context, index) {
-                  // Get the document data
                   final item = filteredItems[index];
                   final itemData = item.data() as Map<String, dynamic>;
 
                   return GestureDetector(
                     onTap: () {
-                      // Navigate to ItemSellerInfoPage with item data
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => ItemSellerInfoPage(itemData: itemData),
+                          builder: (context) => ItemSellerInfoPage(
+                            itemData: itemData,
+                            sellerUserId: itemData['userId'] ?? '',
+                          ),
                         ),
                       );
                     },
                     child: Container(
-                      height: MediaQuery.of(context).size.height / 1.8, // Further increased card height
+                      height: MediaQuery.of(context).size.height / 1.8,
                       margin: EdgeInsets.all(8.0),
                       child: Card(
-                        color: Colors.blueGrey.shade800.withOpacity(0.8), // Darker card background
+                        color: Colors.blueGrey.shade800.withOpacity(0.8),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(15),
                         ),
-                        elevation: 5, // Add shadow
+                        elevation: 5,
                         child: Column(
                           children: [
-                            // Image with rounded corners
                             Container(
-                              height: MediaQuery.of(context).size.height / 3, // Adjusted image height
+                              height: MediaQuery.of(context).size.height / 3,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.vertical(top: Radius.circular(15)),
                                 image: DecorationImage(
                                   image: itemData['imageBase64'] != null
-                                      ? MemoryImage(base64Decode(itemData['imageBase64'])) // Decode and display Base64 image
-                                      : NetworkImage('https://via.placeholder.com/400') as ImageProvider, // Fallback placeholder
+                                      ? MemoryImage(base64Decode(itemData['imageBase64']))
+                                      : NetworkImage('https://via.placeholder.com/400') as ImageProvider,
                                   fit: BoxFit.cover,
                                 ),
                               ),
                             ),
-                            // Title below the image
                             Padding(
                               padding: const EdgeInsets.all(16.0),
                               child: Align(
@@ -237,31 +215,32 @@ class _HomeContentState extends State<HomeContent> {
                                 ),
                               ),
                             ),
-                            // Item info takes the remaining space
                             Expanded(
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Align(
-                                      alignment:Alignment.centerLeft,
-                                      child:Text(
-                                        "Description: ${itemData['description1'] ?? 'N/A'}",
-                                        style: TextStyle(fontSize: 16, color: Colors.white,),
+                                child: SingleChildScrollView(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Text(
+                                          "Description: ${itemData['description1'] ?? 'N/A'}",
+                                          style: TextStyle(fontSize: 16, color: Colors.white),
+                                        ),
                                       ),
-                                    ),
-                                    SizedBox(height: 8),
-                                    Text(
-                                      "Price: \$${itemData['price'] ?? 'N/A'}",
-                                      style: TextStyle(fontSize: 18,  color: Colors.white),
-                                    ),
-                                    SizedBox(height: 8),
-                                    Text(
-                                      "Location: ${itemData['location'] ?? 'N/A'}",
-                                      style: TextStyle(fontSize: 16,  color: Colors.white),
-                                    ),
-                                  ],
+                                      SizedBox(height: 8),
+                                      Text(
+                                        "Price: \$${itemData['price'] ?? 'N/A'}",
+                                        style: TextStyle(fontSize: 18, color: Colors.white),
+                                      ),
+                                      SizedBox(height: 8),
+                                      Text(
+                                        "Location: ${itemData['location'] ?? 'N/A'}",
+                                        style: TextStyle(fontSize: 16, color: Colors.white),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
@@ -282,18 +261,15 @@ class _HomeContentState extends State<HomeContent> {
 
 class ItemSellerInfoPage extends StatelessWidget {
   final Map<String, dynamic> itemData;
+  final String sellerUserId;
 
-  const ItemSellerInfoPage({required this.itemData});
+  const ItemSellerInfoPage({required this.itemData, required this.sellerUserId});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Item and Seller Info",
-          style: TextStyle(
-
-            color: Colors.white,
-          ),),
+        title: Text("Item and Seller Info", style: TextStyle(color: Colors.white)),
         backgroundColor: Colors.black54,
         centerTitle: true,
       ),
@@ -318,7 +294,6 @@ class ItemSellerInfoPage extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Clickable Item Image
                       GestureDetector(
                         onTap: () {
                           Navigator.push(
@@ -345,7 +320,6 @@ class ItemSellerInfoPage extends StatelessWidget {
                         ),
                       ),
                       SizedBox(height: 16),
-                      // Title
                       Text(
                         "Title: ${itemData['title'] ?? 'N/A'}",
                         style: TextStyle(
@@ -355,30 +329,50 @@ class ItemSellerInfoPage extends StatelessWidget {
                         ),
                       ),
                       SizedBox(height: 16),
-                      // Seller Info
-                      Row(
-                        children: [
-                          CircleAvatar(
-                            radius: 30,
-                            backgroundImage: NetworkImage('https://via.placeholder.com/100'),
-                          ),
-                          SizedBox(width: 12),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                      FutureBuilder<DocumentSnapshot>(
+                        future: FirebaseFirestore.instance
+                            .collection('users')
+                            .doc(sellerUserId)
+                            .get(),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState == ConnectionState.waiting) {
+                            return CircularProgressIndicator(color: Colors.white);
+                          }
+
+                          if (snapshot.hasError) {
+                            return Text("Error loading seller info", style: TextStyle(color: Colors.white));
+                          }
+
+                          if (!snapshot.hasData || !snapshot.data!.exists) {
+                            return Text("Seller information not found", style: TextStyle(color: Colors.white));
+                          }
+
+                          final sellerData = snapshot.data!.data() as Map<String, dynamic>;
+
+                          return Row(
                             children: [
-                              Text("Seller Name",
-                                  style: TextStyle(
-                                      fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white)),
-                              Row(
-                                children: List.generate(
-                                    5, (index) => Icon(Icons.star, color: Colors.amber, size: 18)),
+                              CircleAvatar(
+                                radius: 30,
+                                backgroundImage: NetworkImage(sellerData['profileImage'] ?? 'https://via.placeholder.com/100'),
+                              ),
+                              SizedBox(width: 12),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    sellerData['name'] ?? 'Unknown Seller',
+                                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
+                                  ),
+                                  Row(
+                                    children: List.generate(5, (index) => Icon(Icons.star, color: Colors.amber, size: 18)),
+                                  ),
+                                ],
                               ),
                             ],
-                          ),
-                        ],
+                          );
+                        },
                       ),
                       SizedBox(height: 16),
-                      // Item Descriptions
                       Text(
                         "Description 1: ${itemData['description1'] ?? 'N/A'}",
                         style: TextStyle(fontSize: 16, color: Colors.white),
@@ -389,16 +383,11 @@ class ItemSellerInfoPage extends StatelessWidget {
                         style: TextStyle(fontSize: 16, color: Colors.white),
                       ),
                       SizedBox(height: 16),
-                      // Item Price
                       Text(
                         "Price: \$${itemData['price'] ?? 'N/A'}",
-                        style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.green),
+                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.green),
                       ),
                       SizedBox(height: 16),
-                      // Seller Address
                       Text(
                         "Location: ${itemData['location'] ?? 'N/A'}",
                         style: TextStyle(fontSize: 16, color: Colors.white),
@@ -409,41 +398,51 @@ class ItemSellerInfoPage extends StatelessWidget {
                 ),
               ),
             ),
-            // Chat Button at the bottom
             Padding(
               padding: EdgeInsets.only(
-                bottom: MediaQuery.of(context).padding.bottom + 16, // Extra padding for spacing
-                left: 16,  // Padding on the sides
-                right: 16, // Padding on the sides
+                bottom: MediaQuery.of(context).padding.bottom + 16,
+                left: 16,
+                right: 16,
               ),
               child: SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
-                    // TODO: Implement chat feature
+                    if (sellerUserId.isNotEmpty) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ChatMessages(otherUserId: sellerUserId),
+                        ),
+                      );
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text("Seller information not available")),
+                      );
+                    }
                   },
                   style: ElevatedButton.styleFrom(
-                    padding: EdgeInsets.symmetric(vertical: 14), // Better height
+                    padding: EdgeInsets.symmetric(vertical: 14),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12), // Rounded edges
+                      borderRadius: BorderRadius.circular(12),
                     ),
-                    backgroundColor: Colors.black.withOpacity(0.8), // Blackish color with slight transparency
-                    shadowColor: Colors.black.withOpacity(0.5), // Subtle glow effect
-                    elevation: 8, // Lifted effect
+                    backgroundColor: Colors.black.withOpacity(0.8),
+                    shadowColor: Colors.black.withOpacity(0.5),
+                    elevation: 8,
                   ),
                   child: Text(
                     "Chat with Seller",
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
-                      color: Colors.white, // Ensures good contrast
-                      letterSpacing: 1.2, // Adds spacing for a premium feel
+                      color: Colors.white,
+                      letterSpacing: 1.2,
                     ),
                   ),
                 ),
               ),
             ),
-            SizedBox(height: 16), // Ensures spacing at the bottom
+            SizedBox(height: 16),
           ],
         ),
       ),
@@ -451,7 +450,6 @@ class ItemSellerInfoPage extends StatelessWidget {
   }
 }
 
-// Fullscreen Image Page
 class FullScreenImagePage extends StatelessWidget {
   final String? imageData;
 
