@@ -11,7 +11,7 @@
             Search & Filters – Easily find relevant listings
             Trusted Community – Only verified university members can join
        Enhanced Features :
-            Notification System – Real-time push notifications for new messages or offers
+            Notification System – Real-time in-app notifications for new messages or offers
             In-app Chat – Private messaging without sharing phone numbers
             Rating & Review System – Users can rate and review sellers to build trust
             Security & Trust – Features to handle potential scams or misuse.If the reviews are constantly bad for user, it will lead to banning of the user.
@@ -72,7 +72,8 @@
     │   ├── services
     │   │   ├── auth_service.dart
     │   │   ├── firestore_service.dart
-    │   │   └── otp_service.dart
+    │   │   |── otp_service.dart
+    |   |   └── notification.dart
     │   ├── utils
     │   │   ├── constants.dart
     │   │   └── validators.dart
@@ -167,6 +168,10 @@
                 Additional Features:
                 View Rulebook & Guidelines.
                 Rate the App.
+
+    🔹 Notifications (notification.dart)
+            Show real time in-app notifications for chats
+            
     🔹 Report (Abuse & Spam Reporting) 
             Accessible from the Chat Page 
             Users can report abuse, harassment, and spam.
