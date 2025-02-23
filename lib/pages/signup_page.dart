@@ -22,6 +22,14 @@ class _SignupPageState extends State<SignupPage> {
   final AuthService _authService = AuthService();
 
   void _signUp() async {
+    // Validate email domain
+    if (!emailController.text.endsWith('iitmandi.ac.in')) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Only IIT Mandi emails are allowed")),
+      );
+      return;
+    }
+
     if (passwordController.text != confirmPasswordController.text) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("Passwords do not match")),
@@ -59,12 +67,10 @@ class _SignupPageState extends State<SignupPage> {
           builder: (_) => OTPVerifyPage(email: emailController.text, userId: user.uid),
         ),
       );
-
     } else {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Signup Failed")));
     }
   }
-
 
   @override
   Widget build(BuildContext context) {

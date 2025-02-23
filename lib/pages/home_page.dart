@@ -56,12 +56,12 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
         actions: [
-          SvgPicture.asset(
-            'assets/logo_ab.svg',
-            height: 40,
-          ),
           Padding(
             padding: const EdgeInsets.only(right: 10.0),
+            child: SvgPicture.asset(
+              'assets/logo_ab.svg',
+              height: 40,
+            ),
           ),
         ],
       ),
