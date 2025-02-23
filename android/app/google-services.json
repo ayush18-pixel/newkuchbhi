@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "5365188659",
+    "project_id": "kuchbhi-86004",
+    "storage_bucket": "kuchbhi-86004.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:5365188659:android:a4ce849203bf8ccae63b46",
+        "android_client_info": {
+          "package_name": "com.example.kuchbhi"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAGZ6RL_dDGD5gH8cRtyM4Hr9k4w8x8nlk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
