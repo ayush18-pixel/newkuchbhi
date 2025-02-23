@@ -20,67 +20,76 @@
             Real-time Notifications – Minimal delay for chat updates and new offers
             Efficient Data Management – Quick loading times with database optimization
             
-  App Pages & Navigation Flow :
+  Navigation Flow and Summary of Code:
   
-       Login Page :
-            The first page the user interacts with and it contains:
-                Email & Password Fields – For user authentication.
-                Login Button – If the user enters valid credentials, they are redirected to the Home Page.
-                Sign Up Button – Navigates to the Sign Up Page for new users.
-       Sign Up Page :
-            Allows new users to create an account and it contains :
-                User Input Fields – Email, Password, Confirm password, signup button and a login button (brings the user back to the login page)
-                Signup Button – Redirects to the Profile Info Page to enter the credentials - First name, Last name, contact number, age, gender, location (north/south) and profile photo (optional)
-                The profile info page contains : 
-                    Submit button - Redirect to home page.
-                    Skip Button – Allows users to proceed without a profile picture.
-                    
-       Home Page :  
-            The main hub for browsing and interacting with the marketplace and it contains :
-                Search Bar – Allows users to find items.
-                Item Listings – Displays items available for purchase and it links to Buy Item Page
-                Bottom Navigation Bar – Links to :
-                    Sell Item Page
-                    Profile Page
-                    Chat Page
-                    My Ads Page
-            Buy Item Page :
-                Displays item details, seller information, and options to purchase and this page contains :
-                    Item Image & Title
-                    Seller Details – Profile picture, name, and rating.
-                    Description & Price
-                    Address
-                    Chat Button – Redirects to Chat Page to communicate with the seller.
-          
-       Chat Page :    
-            Facilitates communication between buyers and sellers and contains :
-                    Chat Box – Shows message history.
-                    Input Field – Type and send messages.
-                    Report Button – Allows users to report abuse, spam, or harassment.
-       Sell Item Page :
-            Allows users to list items for sale and it contains :
-                    Image Upload Section
-                    Price Input
-                    Title & Description Fields (limited to 50 words)
-                    Submit Button – Adds the item to the marketplace.
-       My Ads Page :   
-            Shows all the items listed by the user.
-            Allows removing ads.
-       Profile Page :
-            Displays user details and their listed items, it contains :
-                    Profile Picture & Name
-                    Email & Contact Number
-                    Listed Items
-                    User Rating
-                    Change Password Option
-                    Logout Button
-                    Additional Features :
-                        View Rulebook & Guidelines
-                        Rate the App            
-       Report Page :  
-            Accessible from the Chat Page via the three-dot menu, it contains :
-                    Abuse, Harassment, and Spam Options
-                    Submit Button – Sends the report to the admin.
+       1. App Pages & Navigation Flow
+    🔹 Login Page (login_page.dart)
+            Email & Password Fields – User authentication via Firebase.
+            Login Button – Redirects users to the Home Page upon success.
+            Sign Up Button – Navigates to Sign Up Page for new users.
+    🔹 Sign Up & Profile Setup
+            Sign Up Page (signup_page.dart)
+
+            Users must register using an IIT Mandi email.
+            Fields: Email, Password, Confirm Password.
+            OTP-based authentication using Brevo & Firestore.
+            Redirects to Profile Info Page after OTP verification.
+            Profile Info Page (prof_sign_page.dart)
+
+            Users enter:
+                First Name, Last Name, Contact, Age, Gender, Location (North/South).
+                Profile Photo (Optional) – Can skip and proceed.
+                Submit Button – Redirects to Home Page.
+    🔹 Home Page (Main Marketplace Hub) (home_page.dart)
+            Search Bar – Allows users to find items.
+            Item Listings – Displays all items for sale (links to Buy Item Page).
+            Bottom Navigation Bar:
+                Sell Item Page (add_item_page.dart) – List new items.
+                Profile Page (profile_page.dart) – View/edit user profile.
+                Chat Page (chat_messages.dart) – Communicate with buyers/sellers.
+                My Ads Page (myads_page.dart) – Manage listed items.
+    🔹 Buy Item Page (Item Details & Seller Info) (item_info_page.dart)
+            Displays full item details:
+                Item Image & Title
+                Seller Profile (Picture, Name, Rating)
+                Item Description, Price, Seller Address
+                Chat Button – Redirects to Chat Page to talk to the seller.
+    🔹 Chat Page (Buyer-Seller Communication) (chat_messages.dart)
+            Chat Box – Displays message history.
+            Input Field – Users can type & send messages.
+            Report Button – Allows users to report abuse, spam, or harassment.
+    🔹 Sell Item Page (Post Listings) (add_item_page.dart)
+            Allows users to list items for sale with:
+            Image Upload (Compressed & stored as Base64).
+            Price, Title, and Description (50-word limit).
+            Submit Button – Adds item to Firestore.
+    🔹 My Ads Page (Manage Listings) (myads_page.dart)
+            Displays all items listed by the user.
+            Allows users to delete ads from Firestore.
+    🔹 Profile Page (User Account & Settings) (profile_page.dart)
+            Displays user details & listed items.
+            Contains:
+                Profile Picture & Name.
+                Email & Contact Number.
+                User Rating.
+                Change Password Option.
+                Logout Button.
+                Additional Features:
+                View Rulebook & Guidelines.
+                Rate the App.
+    🔹 Report (Abuse & Spam Reporting) 
+            Accessible from the Chat Page 
+            Users can report abuse, harassment, and spam.
+            Submit Button – Sends the report to the admin.
+            
+ Firebase Integration & Backend
+   
+     Firebase Authentication – Secure login & signup.
+     Firestore Database – Stores user profiles, item listings, and chat messages.
+     Real-time updates – Items, messages, and profile changes sync instantly.
+     OTP Authentication via Brevo – Ensures secure user verification.
+
+
 
 Setup and Run :
     
