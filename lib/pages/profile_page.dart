@@ -4,9 +4,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:kuchbhi/pages/login_page.dart';
 
 bool signout = false;
+
 class ProfilePage extends StatelessWidget {
-
-
   @override
   Widget build(BuildContext context) {
     final userId = FirebaseAuth.instance.currentUser!.uid;
@@ -41,7 +40,7 @@ class ProfilePage extends StatelessWidget {
                 ],
               ),
             ),
-            child: Padding(
+            child: SingleChildScrollView( // Add SingleChildScrollView here
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 40),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -131,7 +130,7 @@ class ProfilePage extends StatelessWidget {
                   ),
 
                   // Extra Spacer to Lower Buttons
-                  Spacer(flex: 4),
+                  SizedBox(height: 20), // Replaced Spacer with SizedBox for better control
 
                   // Sign Out & Rate the App Buttons with Icons
                   Padding(
