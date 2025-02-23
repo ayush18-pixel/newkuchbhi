@@ -19,6 +19,96 @@
             Smooth Image Handling – Optimized for fast image uploads and retrieval
             Real-time Notifications – Minimal delay for chat updates and new offers
             Efficient Data Management – Quick loading times with database optimization
+
+  Structure of Repository
+
+    .
+    ├── README.md
+    ├── analysis_options.yaml
+    ├── android
+    │   ├── app
+    │   │   ├── build.gradle
+    │   │   └── src
+    │   │       └── main
+    │   │           ├── AndroidManifest.xml
+    │   │           └── res
+    │   │               └── values
+    │   │                   └── styles.xml
+    │   ├── build.gradle
+    │   └── settings.gradle
+    ├── assets
+    │   ├── logo.svg
+    │   └── logo_ab.svg
+    ├── firebase.json
+    ├── ios
+    │   ├── Runner
+    │   │   ├── AppDelegate.swift
+    │   │   ├── Assets.xcassets
+    │   │   │   └── AppIcon.appiconset
+    │   │   └── Info.plist
+    │   └── Runner.xcodeproj
+    │       └── project.pbxproj
+    ├── lib
+    │   ├── firebase_options.dart
+    │   ├── main.dart
+    │   ├── models
+    │   │   └── otp_model.dart
+    │   ├── pages
+    │   │   ├── add_item_page.dart
+    │   │   ├── auth_page.dart
+    │   │   ├── chat_messages.dart
+    │   │   ├── home_page.dart
+    │   │   ├── item_info_page.dart
+    │   │   ├── login_page.dart
+    │   │   ├── myads_page.dart
+    │   │   ├── otp_verify.dart
+    │   │   ├── prof_sign_page.dart
+    │   │   ├── profile_page.dart
+    │   │   ├── signup_page.dart
+    │   │   └── users.dart
+    │   ├── screens
+    │   │   ├── chat.dart
+    │   │   └── splash.dart
+    │   ├── services
+    │   │   ├── auth_service.dart
+    │   │   ├── firestore_service.dart
+    │   │   └── otp_service.dart
+    │   ├── utils
+    │   │   ├── constants.dart
+    │   │   └── validators.dart
+    │   └── widgets
+    │       ├── chat_messages.dart
+    │       ├── custom_button.dart
+    │       ├── form_input.dart
+    │       ├── message_bubble.dart
+    │       ├── new_message.dart
+    │       └── user_image_picker.dart
+    ├── linux
+    │   ├── CMakeLists.txt
+    │   └── runner
+    │       ├── CMakeLists.txt
+    │       └── main.cc
+    ├── macos
+    │   ├── Runner
+    │   │   ├── AppDelegate.swift
+    │   │   ├── Assets.xcassets
+    │   │   │   └── AppIcon.appiconset
+    │   │   └── Info.plist
+    │   └── Runner.xcodeproj
+    │       └── project.pbxproj
+    ├── pubspec.lock
+    ├── pubspec.yaml
+    ├── test
+    │   └── widget_test.dart
+    ├── web
+    │   ├── index.html
+    │   └── manifest.json
+    └── windows
+        ├── CMakeLists.txt
+        └── runner
+            ├── CMakeLists.txt
+            └── main.cpp           
+          
             
   Navigation Flow and Summary of Code:
   
