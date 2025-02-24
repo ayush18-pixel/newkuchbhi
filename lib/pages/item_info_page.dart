@@ -1,6 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 
 class ItemSellerInfoPage extends StatelessWidget {
+  final Map<String, dynamic> itemData;
+
+  const ItemSellerInfoPage({required this.itemData});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,7 +25,14 @@ class ItemSellerInfoPage extends StatelessWidget {
                 children: [
                   // Item Image
                   Center(
-                    child: Image.network(
+                    child: itemData['imageBase64'] != null
+                        ? Image.memory(
+                      base64Decode(itemData['imageBase64']),
+                      height: constraints.maxWidth * 0.5,
+                      width: double.infinity,
+                      fit: BoxFit.cover,
+                    )
+                        : Image.network(
                       'https://via.placeholder.com/300',
                       height: constraints.maxWidth * 0.5,
                       width: double.infinity,
@@ -57,14 +70,14 @@ class ItemSellerInfoPage extends StatelessWidget {
 
                   // Item Description
                   Text(
-                    "Item Description: This is a great item available for sale. It is in excellent condition.avdgashfajfjashfhjadgfhahgfgefiywggfhgjhsfgwkefuiwgfwgfgiuwefthdjfsnmfvdvfhjschvshdvhfvhdsvhfdbsbfbma,gf,agehfbanmfb,ahegf.ahfuGgefjgdhfsyfoiagfagfeu,hfajfjashfhjadgfhahgfgefiywggfhgjhsfgwkefuiwgfwgfgiuwefthdjfsnmfvdvfhjschvshdvhfvhdsvhfdbsbfbma,gf,agehfbanmfb,ahegf.ahfuGgefjgdhfsyfoiagfagfeuhfajfjashfhjadgfhahgfgefiywggfhgjhsfgwkefuiwgfwgfgiuwefthdjfsnmfvdvfhjschvshdvhfvhdsvhfdbsbfbma,gf,agehfbanmfb,ahegf.ahfuGgefjgdhfsyfoiagfagfeuhfajfjashfhjadgfhahgfgefiywggfhgjhsfgwkefuiwgfwgfgiuwefthdjfsnmfvdvfhjschvshdvhfvhdsvhfdbsbfbma,gf,agehfbanmfb,ahegf.ahfuGgefjgdhfsyfoiagfagfeuhfajfjashfhjadgfhahgfgefiywggfhgjhsfgwkefuiwgfwgfgiuwefthdjfsnmfvdvfhjschvshdvhfvhdsvhfdbsbfbma,gf,agehfbanmfb,ahegf.ahfuGgefjgdhfsyfoiagfagfeuhfajfjashfhjadgfhahgfgefiywggfhgjhsfgwkefuiwgfwgfgiuwefthdjfsnmfvdvfhjschvshdvhfvhdsvhfdbsbfbma,gf,agehfbanmfb,ahegf.ahfuGgefjgdhfsyfoiagfagfeuhfajfjashfhjadgfhahgfgefiywggfhgjhsfgwkefuiwgfwgfgiuwefthdjfsnmfvdvfhjschvshdvhfvhdsvhfdbsbfbma,gf,agehfbanmfb,ahegf.ahfuGgefjgdhfsyfoiagfagfeuhfajfjashfhjadgfhahgfgefiywggfhgjhsfgwkefuiwgfwgfgiuwefthdjfsnmfvdvfhjschvshdvhfvhdsvhfdbsbfbma,gf,agehfbanmfb,ahegf.ahfuGgefjgdhfsyfoiagfagfeuhfajfjashfhjadgfhahgfgefiywggfhgjhsfgwkefuiwgfwgfgiuwefthdjfsnmfvdvfhjschvshdvhfvhdsvhfdbsbfbma,gf,agehfbanmfb,ahegf.ahfuGgefjgdhfsyfoiagfagfeuhfajfjashfhjadgfhahgfgefiywggfhgjhsfgwkefuiwgfwgfgiuwefthdjfsnmfvdvfhjschvshdvhfvhdsvhfdbsbfbma,gf,agehfbanmfb,ahegf.ahfuGgefjgdhfsyfoiagfagfeuhfajfjashfhjadgfhahgfgefiywggfhgjhsfgwkefuiwgfwgfgiuwefthdjfsnmfvdvfhjschvshdvhfvhdsvhfdbsbfbma,gf,agehfbanmfb,ahegf.ahfuGgefjgdhfsyfoiagfagfeuhfajfjashfhjadgfhahgfgefiywggfhgjhsfgwkefuiwgfwgfgiuwefthdjfsnmfvdvfhjschvshdvhfvhdsvhfdbsbfbma,gf,agehfbanmfb,ahegf.ahfuGgefjgdhfsyfoiagfagfeuhfajfjashfhjadgfhahgfgefiywggfhgjhsfgwkefuiwgfwgfgiuwefthdjfsnmfvdvfhjschvshdvhfvhdsvhfdbsbfbma,gf,agehfbanmfb,ahegf.ahfuGgefjgdhfsyfoiagfagfeuhfajfjashfhjadgfhahgfgefiywggfhgjhsfgwkefuiwgfwgfgiuwefthdjfsnmfvdvfhjschvshdvhfvhdsvhfdbsbfbma,gf,agehfbanmfb,ahegf.ahfuGgefjgdhfsyfoiagfagfeuhfajfjashfhjadgfhahgfgefiywggfhgjhsfgwkefuiwgfwgfgiuwefthdjfsnmfvdvfhjschvshdvhfvhdsvhfdbsbfbma,gf,agehfbanmfb,ahegf.ahfuGgefjgdhfsyfoiagfagfeuhfajfjashfhjadgfhahgfgefiywggfhgjhsfgwkefuiwgfwgfgiuwefthdjfsnmfvdvfhjschvshdvhfvhdsvhfdbsbfbma,gf,agehfbanmfb,ahegf.ahfuGgefjgdhfsyfoiagfagfeuhfajfjashfhjadgfhahgfgefiywggfhgjhsfgwkefuiwgfwgfgiuwefthdjfsnmfvdvfhjschvshdvhfvhdsvhfdbsbfbma,gf,agehfbanmfb,ahegf.ahfuGgefjgdhfsyfoiagfagfeuhfajfjashfhjadgfhahgfgefiywggfhgjhsfgwkefuiwgfwgfgiuwefthdjfsnmfvdvfhjschvshdvhfvhdsvhfdbsbfbma,gf,agehfbanmfb,ahegf.ahfuGgefjgdhfsyfoiagfagfeuhfajfjashfhjadgfhahgfgefiywggfhgjhsfgwkefuiwgfwgfgiuwefthdjfsnmfvdvfhjschvshdvhfvhdsvhfdbsbfbma,gf,agehfbanmfb,ahegf.ahfuGgefjgdhfsyfoiagfagfeuhfajfjashfhjadgfhahgfgefiywggfhgjhsfgwkefuiwgfwgfgiuwefthdjfsnmfvdvfhjschvshdvhfvhdsvhfdbsbfbma,gf,agehfbanmfb,ahegf.ahfuGgefjgdhfsyfoiagfagfeuhfajfjashfhjadgfhahgfgefiywggfhgjhsfgwkefuiwgfwgfgiuwefthdjfsnmfvdvfhjschvshdvhfvhdsvhfdbsbfbma,gf,agehfbanmfb,ahegf.ahfuGgefjgdhfsyfoiagfagfeuhfajfjashfhjadgfhahgfgefiywggfhgjhsfgwkefuiwgfwgfgiuwefthdjfsnmfvdvfhjschvshdvhfvhdsvhfdbsbfbma,gf,agehfbanmfb,ahegf.ahfuGgefjgdhfsyfoiagfagfeuhfajfjashfhjadgfhahgfgefiywggfhgjhsfgwkefuiwgfwgfgiuwefthdjfsnmfvdvfhjschvshdvhfvhdsvhfdbsbfbma,gf,agehfbanmfb,ahegf.ahfuGgefjgdhfsyfoiagfagfeuhfajfjashfhjadgfhahgfgefiywggfhgjhsfgwkefuiwgfwgfgiuwefthdjfsnmfvdvfhjschvshdvhfvhdsvhfdbsbfbma,gf,agehfbanmfb,ahegf.ahfuGgefjgdhfsyfoiagfagfeuhfajfjashfhjadgfhahgfgefiywggfhgjhsfgwkefuiwgfwgfgiuwefthdjfsnmfvdvfhjschvshdvhfvhdsvhfdbsbfbma,gf,agehfbanmfb,ahegf.ahfuGgefjgdhfsyfoiagfagfeuhfajfjashfhjadgfhahgfgefiywggfhgjhsfgwkefuiwgfwgfgiuwefthdjfsnmfvdvfhjschvshdvhfvhdsvhfdbsbfbma,gf,agehfbanmfb,ahegf.ahfuGgefjgdhfsyfoiagfagfeuhfajfjashfhjadgfhahgfgefiywggfhgjhsfgwkefuiwgfwgfgiuwefthdjfsnmfvdvfhjschvshdvhfvhdsvhfdbsbfbma,gf,agehfbanmfb,ahegf.ahfuGgefjgdhfsyfoiagfagfeuhfajfjashfhjadgfhahgfgefiywggfhgjhsfgwkefuiwgfwgfgiuwefthdjfsnmfvdvfhjschvshdvhfvhdsvhfdbsbfbma,gf,agehfbanmfb,ahegf.ahfuGgefjgdhfsyfoiagfagfeuhfajfjashfhjadgfhahgfgefiywggfhgjhsfgwkefuiwgfwgfgiuwefthdjfsnmfvdvfhjschvshdvhfvhdsvhfdbsbfbma,gf,agehfbanmfb,ahegf.ahfuGgefjgdhfsyfoiagfagfeuhfajfjashfhjadgfhahgfgefiywggfhgjhsfgwkefuiwgfwgfgiuwefthdjfsnmfvdvfhjschvshdvhfvhdsvhfdbsbfbma,gf,agehfbanmfb,ahegf.ahfuGgefjgdhfsyfoiagfagfeuhfajfjashfhjadgfhahgfgefiywggfhgjhsfgwkefuiwgfwgfgiuwefthdjfsnmfvdvfhjschvshdvhfvhdsvhfdbsbfbma,gf,agehfbanmfb,ahegf.ahfuGgefjgdhfsyfoiagfagfeuhfajfjashfhjadgfhahgfgefiywggfhgjhsfgwkefuiwgfwgfgiuwefthdjfsnmfvdvfhjschvshdvhfvhdsvhfdbsbfbma,gf,agehfbanmfb,ahegf.ahfuGgefjgdhfsyfoiagfagfeuhfajfjashfhjadgfhahgfgefiywggfhgjhsfgwkefuiwgfwgfgiuwefthdjfsnmfvdvfhjschvshdvhfvhdsvhfdbsbfbma,gf,agehfbanmfb,ahegf.ahfuGgefjgdhfsyfoiagfagfeuhfajfjashfhjadgfhahgfgefiywggfhgjhsfgwkefuiwgfwgfgiuwefthdjfsnmfvdvfhjschvshdvhfvhdsvhfdbsbfbma,gf,agehfbanmfb,ahegf.ahfuGgefjgdhfsyfoiagfagfeuhfajfjashfhjadgfhahgfgefiywggfhgjhsfgwkefuiwgfwgfgiuwefthdjfsnmfvdvfhjschvshdvhfvhdsvhfdbsbfbma,gf,agehfbanmfb,ahegf.ahfuGgefjgdhfsyfoiagfagfeuhfajfjashfhjadgfhahgfgefiywggfhgjhsfgwkefuiwgfwgfgiuwefthdjfsnmfvdvfhjschvshdvhfvhdsvhfdbsbfbma,gf,agehfbanmfb,ahegf.ahfuGgefjgdhfsyfoiagfagfeuhfajfjashfhjadgfhahgfgefiywggfhgjhsfgwkefuiwgfwgfgiuwefthdjfsnmfvdvfhjschvshdvhfvhdsvhfdbsbfbma,gf,agehfbanmfb,ahegf.ahfuGgefjgdhfsyfoiagfagfeuhfajfjashfhjadgfhahgfgefiywggfhgjhsfgwkefuiwgfwgfgiuwefthdjfsnmfvdvfhjschvshdvhfvhdsvhfdbsbfbma,gf,agehfbanmfb,ahegf.ahfuGgefjgdhfsyfoiagfagfeuhfajfjashfhjadgfhahgfgefiywggfhgjhsfgwkefuiwgfwgfgiuwefthdjfsnmfvdvfhjschvshdvhfvhdsvhfdbsbfbma,gf,agehfbanmfb,ahegf.ahfuGgefjgdhfsyfoiagfagfeuhfajfjashfhjadgfhahgfgefiywggfhgjhsfgwkefuiwgfwgfgiuwefthdjfsnmfvdvfhjschvshdvhfvhdsvhfdbsbfbma,gf,agehfbanmfb,ahegf.ahfuGgefjgdhfsyfoiagfagfeuhfajfjashfhjadgfhahgfgefiywggfhgjhsfgwkefuiwgfwgfgiuwefthdjfsnmfvdvfhjschvshdvhfvhdsvhfdbsbfbma,gf,agehfbanmfb,ahegf.ahfuGgefjgdhfsyfoiagfagfeuhfajfjashfhjadgfhahgfgefiywggfhgjhsfgwkefuiwgfwgfgiuwefthdjfsnmfvdvfhjschvshdvhfvhdsvhfdbsbfbma,gf,agehfbanmfb,ahegf.ahfuGgefjgdhfsyfoiagfagfeuhfajfjashfhjadgfhahgfgefiywggfhgjhsfgwkefuiwgfwgfgiuwefthdjfsnmfvdvfhjschvshdvhfvhdsvhfdbsbfbma,gf,agehfbanmfb,ahegf.ahfuGgefjgdhfsyfoiagfagfeuhfajfjashfhjadgfhahgfgefiywggfhgjhsfgwkefuiwgfwgfgiuwefthdjfsnmfvdvfhjschvshdvhfvhdsvhfdbsbfbma,gf,agehfbanmfb,ahegf.ahfuGgefjgdhfsyfoiagfagfeuhfajfjashfhjadgfhahgfgefiywggfhgjhsfgwkefuiwgfwgfgiuwefthdjfsnmfvdvfhjschvshdvhfvhdsvhfdbsbfbma,gf,agehfbanmfb,ahegf.ahfuGgefjgdhfsyfoiagfagfeuhfajfjashfhjadgfhahgfgefiywggfhgjhsfgwkefuiwgfwgfgiuwefthdjfsnmfvdvfhjschvshdvhfvhdsvhfdbsbfbma,gf,agehfbanmfb,ahegf.ahfuGgefjgdhfsyfoiagfagfeuhfajfjashfhjadgfhahgfgefiywggfhgjhsfgwkefuiwgfwgfgiuwefthdjfsnmfvdvfhjschvshdvhfvhdsvhfdbsbfbma,gf,agehfbanmfb,ahegf.ahfuGgefjgdhfsyfoiagfagfeuhfajfjashfhjadgfhahgfgefiywggfhgjhsfgwkefuiwgfwgfgiuwefthdjfsnmfvdvfhjschvshdvhfvhdsvhfdbsbfbma,gf,agehfbanmfb,ahegf.ahfuGgefjgdhfsyfoiagfagfeuhfajfjashfhjadgfhahgfgefiywggfhgjhsfgwkefuiwgfwgfgiuwefthdjfsnmfvdvfhjschvshdvhfvhdsvhfdbsbfbma,gf,agehfbanmfb,ahegf.ahfuGgefjgdhfsyfoiagfagfeuhfajfjashfhjadgfhahgfgefiywggfhgjhsfgwkefuiwgfwgfgiuwefthdjfsnmfvdvfhjschvshdvhfvhdsvhfdbsbfbma,gf,agehfbanmfb,ahegf.ahfuGgefjgdhfsyfoiagfagfeuhfajfjashfhjadgfhahgfgefiywggfhgjhsfgwkefuiwgfwgfgiuwefthdjfsnmfvdvfhjschvshdvhfvhdsvhfdbsbfbma,gf,agehfbanmfb,ahegf.ahfuGgefjgdhfsyfoiagfagfeu",
+                    "Item Description: ${itemData['description1'] ?? 'N/A'}",
                     style: TextStyle(fontSize: 16),
                   ),
                   SizedBox(height: 16),
 
                   // Item Price
                   Text(
-                    "Price: \$150",
+                    "Price: \$${itemData['price'] ?? 'N/A'}",
                     style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
@@ -74,7 +87,7 @@ class ItemSellerInfoPage extends StatelessWidget {
 
                   // Seller Address
                   Text(
-                    "Seller Address: 123, Main Street, City, Country",
+                    "Location: ${itemData['location'] ?? 'N/A'}",
                     style: TextStyle(fontSize: 16),
                   ),
                   SizedBox(height: 16),
@@ -101,4 +114,3 @@ class ItemSellerInfoPage extends StatelessWidget {
     );
   }
 }
-

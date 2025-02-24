@@ -48,7 +48,25 @@ class _ProfilePageState extends State<ProfilePage> {
     return base64Encode(compressedImageBytes); // Convert to Base64
   }
 
+  // Function to check if all fields are filled
+  bool _areAllFieldsFilled() {
+    return firstNameController.text.isNotEmpty &&
+        lastNameController.text.isNotEmpty &&
+        contactController.text.isNotEmpty &&
+        ageController.text.isNotEmpty &&
+        gender != null &&
+        location != null;
+  }
+
+  // Function to save profile data
   void _saveProfile() async {
+    if (!_areAllFieldsFilled()) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Please fill all the details')),
+      );
+      return;
+    }
+
     String? base64Image;
     if (_image != null) {
       // Compress and convert image to Base64 if an image is selected
@@ -84,6 +102,21 @@ class _ProfilePageState extends State<ProfilePage> {
         title: Text('Profile'),
         centerTitle: true,
         backgroundColor: Colors.blueGrey.shade700, // AppBar color
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            if (_areAllFieldsFilled()) {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (_) => HomePage()),
+              );
+            } else {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text('Please fill all the details before proceeding')),
+              );
+            }
+          },
+        ),
       ),
       body: Container(
         decoration: BoxDecoration(
@@ -257,7 +290,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         onPressed: _saveProfile,
                         child: Text(
                           'Submit',
-                          style: TextStyle(fontSize: screenWidth * 0.035,color: Colors.white), // Dynamic font size
+                          style: TextStyle(fontSize: screenWidth * 0.035, color: Colors.white), // Dynamic font size
                         ),
                         style: ElevatedButton.styleFrom(
                           padding: EdgeInsets.symmetric(

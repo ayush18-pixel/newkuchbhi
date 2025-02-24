@@ -6,7 +6,13 @@ import 'home_page.dart';
 
 class LoginPage extends StatefulWidget {
   final VoidCallback onToggle;
-  LoginPage({required this.onToggle});
+  final bool isSignedOut; // Add this parameter
+
+  const LoginPage({
+    required this.onToggle,
+    this.isSignedOut = false, // Default value is false
+    Key? key,
+  }) : super(key: key);
 
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -16,14 +22,62 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final AuthService _authService = AuthService();
+  bool _isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.isSignedOut) {
+      // Show a message or perform an action when the user is signed out
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("You have been signed out.")),
+      );
+    }
+  }
 
   void _login() async {
-    User? user = await _authService.signIn(emailController.text, passwordController.text);
+    // Validate inputs
+    if (emailController.text.isEmpty || passwordController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Please fill in all fields")),
+      );
+      return;
+    }
 
-    if (user != null) {
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => HomePage()));
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Login Failed")));
+    setState(() => _isLoading = true);
+
+    try {
+      User? user = await _authService.signIn(
+        emailController.text,
+        passwordController.text,
+      );
+
+      if (user != null) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => HomePage()),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Login Failed")),
+        );
+      }
+    } on FirebaseAuthException catch (e) {
+      String errorMessage = "Login Failed";
+      if (e.code == 'user-not-found') {
+        errorMessage = "No user found with this email";
+      } else if (e.code == 'wrong-password') {
+        errorMessage = "Incorrect password";
+      }
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(errorMessage)),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("An unexpected error occurred")),
+      );
+    } finally {
+      setState(() => _isLoading = false);
     }
   }
 
@@ -34,7 +88,7 @@ class _LoginPageState extends State<LoginPage> {
 
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
@@ -62,39 +116,54 @@ class _LoginPageState extends State<LoginPage> {
                       controller: emailController,
                       decoration: InputDecoration(
                         labelText: "Email",
-                        labelStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                        labelStyle: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                        ),
                         filled: true,
-                        fillColor: Colors.white.withOpacity(0.8), // Light background for input fields
-                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                        fillColor: Colors.white.withOpacity(0.8),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
                       ),
+                      keyboardType: TextInputType.emailAddress,
                     ),
                     SizedBox(height: screenHeight * 0.02), // Responsive spacing
                     TextField(
                       controller: passwordController,
                       decoration: InputDecoration(
                         labelText: "Password",
-                        labelStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                        labelStyle: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                        ),
                         filled: true,
                         fillColor: Colors.white.withOpacity(0.8),
-                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
                       ),
                       obscureText: true,
                     ),
                     SizedBox(height: screenHeight * 0.03), // Responsive spacing
-                    ElevatedButton(
+                    _isLoading
+                        ? const CircularProgressIndicator()
+                        : ElevatedButton(
                       onPressed: _login,
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.yellow.shade100,
                         foregroundColor: Colors.black87,
                         padding: EdgeInsets.symmetric(
-                          horizontal: screenWidth * 0.1, // Responsive padding
+                          horizontal: screenWidth * 0.1,
                           vertical: screenHeight * 0.02,
                         ),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
                         elevation: 6,
                         shadowColor: Colors.tealAccent.withOpacity(0.5),
                       ),
-                      child: Text(
+                      child: const Text(
                         "Login",
                         style: TextStyle(
                           fontSize: 20,
@@ -106,7 +175,7 @@ class _LoginPageState extends State<LoginPage> {
                     SizedBox(height: screenHeight * 0.02), // Responsive spacing
                     TextButton(
                       onPressed: widget.onToggle,
-                      child: Text(
+                      child: const Text(
                         "Create an account",
                         style: TextStyle(
                           fontSize: 16,

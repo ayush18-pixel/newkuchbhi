@@ -4,6 +4,7 @@ import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'dart:convert'; // For Base64 encoding/decoding
 import 'package:image/image.dart' as img; // Add prefix 'img' to avoid conflict
+import 'package:kuchbhi/pages/myads_page.dart'; // Import MyAdsPage
 
 class AddItemPage extends StatefulWidget {
   final String userId; // Pass the current user's ID
@@ -87,6 +88,14 @@ class _AddItemPageState extends State<AddItemPage> {
         _selectedLocation = null;
         _image = null;
       });
+
+      // Redirect to MyAdsPage after successful submission
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => MyAdsPage(userId: widget.userId),
+        ),
+      );
     } catch (e) {
       print('Error submitting data: $e');
       ScaffoldMessenger.of(context).showSnackBar(
@@ -102,13 +111,19 @@ class _AddItemPageState extends State<AddItemPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(centerTitle:true ,
-         backgroundColor: Colors.blueGrey.shade700,
-         title:Text("Add Item",textAlign: TextAlign.center,
-             style: TextStyle(
-                 fontSize: 22, fontWeight: FontWeight.bold, color: Colors.white))),
-
-
+      appBar: AppBar(
+        centerTitle: true,
+        backgroundColor: Colors.blueGrey.shade700,
+        title: Text(
+          "Add Item",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontSize: 22,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
+      ),
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(

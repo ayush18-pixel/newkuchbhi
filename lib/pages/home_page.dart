@@ -50,15 +50,20 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: Colors.blueGrey,
         title: Row(
           children: [
-            Icon(Icons.location_on, color: Colors.white),
-            SizedBox(width: 5),
-            Text("Your Address", style: TextStyle(color: Colors.white)),
+            Expanded(
+              child: SvgPicture.asset(
+                'assets/logo_ab.svg',
+                height: 40,
+              ),
+            ),
           ],
         ),
         actions: [
-          SvgPicture.asset(
-            'assets/logo_ab.svg',
-            height: 40,
+          IconButton(
+            icon: Icon(Icons.notifications, color: Colors.white),
+            onPressed: () {
+              // Handle notification button press
+            },
           ),
           Padding(
             padding: const EdgeInsets.only(right: 10.0),
@@ -179,7 +184,7 @@ class _HomeContentState extends State<HomeContent> {
                       );
                     },
                     child: Container(
-                      height: MediaQuery.of(context).size.height / 1.8,
+                      height: MediaQuery.of(context).size.height / 2,
                       margin: EdgeInsets.all(8.0),
                       child: Card(
                         color: Colors.blueGrey.shade800.withOpacity(0.8),
@@ -212,6 +217,7 @@ class _HomeContentState extends State<HomeContent> {
                                     fontWeight: FontWeight.bold,
                                     color: Colors.white,
                                   ),
+                                  overflow: TextOverflow.ellipsis,
                                 ),
                               ),
                             ),
@@ -227,6 +233,7 @@ class _HomeContentState extends State<HomeContent> {
                                         child: Text(
                                           "Description: ${itemData['description1'] ?? 'N/A'}",
                                           style: TextStyle(fontSize: 16, color: Colors.white),
+                                          overflow: TextOverflow.ellipsis,
                                         ),
                                       ),
                                       SizedBox(height: 8),
@@ -238,6 +245,7 @@ class _HomeContentState extends State<HomeContent> {
                                       Text(
                                         "Location: ${itemData['location'] ?? 'N/A'}",
                                         style: TextStyle(fontSize: 16, color: Colors.white),
+                                        overflow: TextOverflow.ellipsis,
                                       ),
                                     ],
                                   ),
